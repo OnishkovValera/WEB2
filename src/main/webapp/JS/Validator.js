@@ -1,6 +1,8 @@
 function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
+lastClicedRadius = 5;
+
 function validateY (event) {
     const MIN = -3;
     const MAX = 5;

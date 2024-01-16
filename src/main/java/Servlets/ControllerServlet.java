@@ -9,12 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/Controller")
 public class ControllerServlet extends HttpServlet {
     @Override
-    protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp){
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp){
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
 
     }
 }

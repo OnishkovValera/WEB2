@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="Beans.ArrayPoints" %>
+<%@ page import="Beans.Point"%>
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -21,18 +24,44 @@
                 <tr>
                     <th>Введите X:</th>
                     <td>
-                        <label for="X"></label>
-                        <select id="X" name="X" class="select">
-                            <option value="-4">-4</option>
-                            <option value="-3">-3</option>
-                            <option value="-2">-2</option>
-                            <option value="-1">-1</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
+                        <div class="radio-form">
+                            <div class="radio-form-item item1">
+                                <input type="radio" name="ValueX" id="m3">
+                                <label for="m3">-3</label>
+                            </div>
+                            <div class="radio-form-item item2">
+                                <input type="radio" name="ValueX" id="m2">
+                                <label for="m2">-2</label>
+                            </div>
+                            <div class="radio-form-item item3">
+                                <input type="radio" name="ValueX" id="m1">
+                                <label for="m1">-1</label>
+                            </div>
+                            <div class="radio-form-item item4">
+                                <input type="radio" name="ValueX" id="p0">
+                                <label for="p0">0</label>
+                            </div>
+                            <div class="radio-form-item item5">
+                                <input type="radio" name="ValueX" id="p1">
+                                <label for="p1">1</label>
+                            </div>
+                            <div class="radio-form-item item6">
+                                <input type="radio" name="ValueX" id="p2">
+                                <label for="p2">2</label>
+                            </div>
+                            <div class="radio-form-item item7">
+                                <input type="radio" name="ValueX" id="p3">
+                                <label for="p3">3</label>
+                            </div>
+                            <div class="radio-form-item item8">
+                                <input type="radio" name="ValueX" id="p4">
+                                <label for="p4">4</label>
+                            </div>
+                            <div class="radio-form-item item9">
+                                <input type="radio" name="ValueX" id="p5">
+                                <label for="p5">5</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -50,25 +79,25 @@
                             <tr>
                                 <td>
                                     <input type="radio" id="1" name="radius" value="1" checked/>
-                                    <label for="1">1.0</label>
-                                </td>
-                                <td>
-                                    <input type="radio" id="1.5" name="radius" value="1.5"/>
-                                    <label for="1.5">1.5</label>
+                                    <label for="1">1</label>
                                 </td>
                                 <td>
                                     <input type="radio" id="2" name="radius" value="2"/>
-                                    <label for="2">2.0</label>
+                                    <label for="2">2</label>
+                                </td>
+                                <td>
+                                    <input type="radio" id="3" name="radius" value="3"/>
+                                    <label for="3">3</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" id="2.5" name="radius" value="2.5"/>
-                                    <label for="2.5">2.5</label>
+                                    <input type="radio" id="4" name="radius" value="4"/>
+                                    <label for="4">4</label>
                                 </td>
                                 <td>
-                                    <input type="radio" id="3" name="radius" value="3"/>
-                                    <label for="3">3.0</label>
+                                    <input type="radio" id="5" name="radius" value="5"/>
+                                    <label for="5">5</label>
                                 </td>
                             </tr>
                         </table>
@@ -83,10 +112,13 @@
                 </tr>
             </table>
         </form>
-        <canvas id="canvas" class="canvas">This canvas does not support graphics</canvas>
+        <canvas id="canvas" class="canvas" width="400" height="400">This canvas does not support graphics</canvas>
     </div>
 </main>
-
+<script>
+    JSONObject = <%=session.getAttribute("array")%>
+</script>
+<script src="JS/Main.js" type="text/javascript"></script>
 <script src="JS/CanvasPrinter.js" type="text/javascript"></script>
 <script src="JS/Validator.js" type="text/javascript"></script>
 </body>
@@ -94,6 +126,58 @@
 </html>
 
 <style>
+    .radio-form {
+        display: inline-block;
+        overflow: hidden;
+    }
+    .radio-form-item {
+        display: inline-block;
+        float: left;
+    }
+    .radio-form  input[type=radio] {
+        display: none;
+    }
+    .radio-form  label {
+        display: inline-block;
+        cursor: pointer;
+        padding: 0px 15px;
+        line-height: 34px;
+        border: 1px solid #999;
+        border-right: none;
+        user-select: none;
+    }
+
+    .radio-form  .radio-form-item:first-child label {
+        border-radius: 6px 0 0 6px;
+    }
+    .radio-form .item4 label{
+        border-radius: 0 6px 6px 0;
+        border-right: 1px solid #999;
+    }
+    .radio-form  .radio-form-item:last-child label {
+        border-radius: 0 6px 6px 0;
+        border-right: 1px solid #999;
+    }
+    .radio-form  .item5 label {
+        border-radius: 6px 0 0 6px;
+    }
+    /* Checked */
+    .radio-form input[type=radio]:checked + label {
+        background: #ffe0a6;
+    }
+
+    /* Hover */
+    .radio-form label:hover {
+        color: #666;
+    }
+
+    /* Disabled */
+    .radio-form input[type=radio]:disabled + label {
+        background: #efefef;
+        color: #666;
+    }
+
+
     .radioTable{
         width: 100%;
     }
