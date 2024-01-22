@@ -1,8 +1,21 @@
 function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-lastClicedRadius = 5;
-
+let lastClickedRadius = 5;
+function getX(){
+    const elements = document.querySelectorAll('input[name="X"]')
+    for (const e of elements) {
+        if (e.checked) {
+            return parseFloat(e.value);
+        }
+    }
+    return null;
+}
+function getY(){
+    let var_y = document.getElementById("Y");
+    let numY = parseFloat(var_y.value.replace(',', '.'));
+    return numY;
+}
 function validateY (event) {
     const MIN = -3;
     const MAX = 5;
@@ -10,16 +23,15 @@ function validateY (event) {
     let var_y = document.getElementById("Y");
     numY = parseFloat(var_y.value.replace(',', '.'));
     if(expPattern.test(numY)){
-        alert("Число не может быть введено в экспоненциальнной форме")
+        alert("Число не может быть введено в экспоненциальной форме")
         event.preventDefault();
         return false;
     } else if(isNumeric(numY) && numY<= MAX && numY >= MIN){
         return true;
     }else {
-        alert("Число должно быть больше 5 и меньше 3")
+        alert("Число должно быть больше -3 и меньше 5")
         event.preventDefault();
         return false;
     }
 
 }
-document.getElementById("feedBack").addEventListener("submit", event=>validateY(event));

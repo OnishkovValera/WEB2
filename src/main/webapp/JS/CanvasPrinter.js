@@ -15,7 +15,6 @@ GRAPH_SIZE = 165;
 let width = canvas.width;
 let height = canvas.height;
 let color = "rgba(20, 20, 20, 0.3)"
-let points = new Array();
 context.font = "1.2rem mono";
 
 function drawGraph(r){
@@ -23,6 +22,7 @@ function drawGraph(r){
     context.save();
     context.transform(1,0,0,-1,SIZE/2, SIZE/2);
     drawFigures(r);
+    drawPoints();
     context.restore();
     drawArrow(-SIZE, SIZE / 2, SIZE, SIZE / 2);
     drawArrow( SIZE / 2, SIZE, SIZE / 2, 0);
@@ -75,19 +75,20 @@ function setPointerAtDot(max_r = 5) {
     context.stroke();
 }
 function drawPoint(x, y, r, success = true) {
-    let r_now = validator.lastClickedR
+    let r_now = lastClickedRadius;
+    if(success === undefined){
+        return;
+    }
     if (r_now != null) {
-        x *= r_now / r
-        y *= r_now / r
+        x *= r_now / r;
+        y *= r_now / r;
     }
 
     context.fillStyle = success ? COLOR_GREEN : COLOR_RED;
-    const totalPoints = 12;
-    const pointInPixels = SIZE / totalPoints;
     context.beginPath();
     context.arc(
-        SIZE / 2 + pointInPixels * x,
-        SIZE / 2 - y * pointInPixels,
+        x*33,
+        y*33,
         5,
         0,
         Math.PI * 2,
@@ -97,8 +98,8 @@ function drawPoint(x, y, r, success = true) {
     context.fillStyle = "black"
     context.lineWidth = 1.5
     context.arc(
-        SIZE / 2 + pointInPixels * x,
-        SIZE / 2 - y * pointInPixels,
+        x * 33,
+        y *33,
         5,
         0,
         Math.PI * 2
@@ -120,9 +121,41 @@ function drawArrow(fromX, fromY, toX, toY){
     context.stroke();
 }
 function drawPoints(){
-    let arrData=[];
-    arrData.shift() // Delete headers
-    arrData.forEach(dot =>{
-        drawPoint(dot.x, dot.y, dot.r, dot.status)
+    let arrData = ArrayPoints;
+    console.log(arrData);
+    for(let i = 0; i < arrData.length; i++){
+        let dot = arrData[i];
+        let st;
+        if( dot.status === "MISS"){
+            st = false;
+        }else if(dot.status === "HIT"){
+            st = true;
+        }else{
+            st = undefined;
+        }
+        drawPoint(dot.x, dot.y, dot.r, st);
+    }
+
+}
+function parseCanvasClick(event){
+    const pixelsX = event.clientX - canvas.getBoundingClientRect().left;
+    const pixelsY = event.clientY - canvas.getBoundingClientRect().top;
+    if((pixelsX < 35 || pixelsX > 365) || (pixelsY < 35 || pixelsY > 365)){
+        alert("Клик вне зоны графика");
+        return;
+    }
+    let x = (((pixelsX - 35)/(GRAPH_SIZE*2))-0.5)*10;
+    let y = (((2*GRAPH_SIZE - (pixelsY - 35))/(GRAPH_SIZE*2))-0.5)*10;
+    $.ajax({
+        type:"GET",
+        url: "Controller",
+        dataType:"json",
+        async:false,
+        data:{
+            "X":x,
+            "Y":y,
+            "radius":lastClickedRadius
+        }
     })
+    window.location.replace("pages/result.jsp");
 }

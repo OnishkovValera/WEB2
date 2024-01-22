@@ -2,21 +2,30 @@ package Beans;
 
 import Validator.HitStatus;
 
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-
+@Stateful
+@SessionScoped
 public class Point implements Serializable {
     private Double x;
     private Double y;
-    private Double r;
+    private Integer r;
     private HitStatus status;
     private String time;
 
-    public Point(Double x, Double y, Double r, HitStatus status, String time) {
+    private long scriptTime;
+
+    public Point(Double x, Double y, Integer r, HitStatus status, String time, long scriptTime) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.status = status;
         this.time = time;
+        this.scriptTime = scriptTime;
+    }
+    public Point() {
+
     }
 
     public Double getX() {
@@ -35,11 +44,11 @@ public class Point implements Serializable {
         this.y = y;
     }
 
-    public Double getR() {
+    public Integer getR() {
         return r;
     }
 
-    public void setR(Double r) {
+    public void setR(Integer r) {
         this.r = r;
     }
 
@@ -57,5 +66,12 @@ public class Point implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+    public long getScriptTime() {
+        return scriptTime;
+    }
+
+    public void setScriptTime(long scriptTime) {
+        this.scriptTime = scriptTime;
     }
 }

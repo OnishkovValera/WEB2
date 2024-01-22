@@ -1,6 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="Beans.ArrayPoints" %>
 <%@ page import="Beans.Point"%>
+<%@page import="com.google.gson.Gson" %>
+<%
+    ArrayPoints points;
+    points = (session.getAttribute("array") == null)
+            ? new ArrayPoints()
+            : (ArrayPoints) session.getAttribute("array");
+%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -19,46 +26,46 @@
 </header>
 <main>
     <div class="container">
-        <form id="feedBack" action="${pageContext.request.contextPath}/Controller" method="post" name="form">
+        <form id="feedBack" action="${pageContext.request.contextPath}//Controller" method="get" name="form">
             <table id="mainTable" class="mainTable">
                 <tr>
                     <th>Введите X:</th>
                     <td>
                         <div class="radio-form">
                             <div class="radio-form-item item1">
-                                <input type="radio" name="ValueX" id="m3">
+                                <input type="radio" name="X" id="m3" value="-3" >
                                 <label for="m3">-3</label>
                             </div>
                             <div class="radio-form-item item2">
-                                <input type="radio" name="ValueX" id="m2">
+                                <input type="radio" name="X" id="m2" value="-2">
                                 <label for="m2">-2</label>
                             </div>
                             <div class="radio-form-item item3">
-                                <input type="radio" name="ValueX" id="m1">
+                                <input type="radio" name="X" id="m1" value="-1">
                                 <label for="m1">-1</label>
                             </div>
                             <div class="radio-form-item item4">
-                                <input type="radio" name="ValueX" id="p0">
+                                <input type="radio" name="X" id="p0" value="0">
                                 <label for="p0">0</label>
                             </div>
                             <div class="radio-form-item item5">
-                                <input type="radio" name="ValueX" id="p1">
+                                <input type="radio" name="X" id="p1" value="1">
                                 <label for="p1">1</label>
                             </div>
                             <div class="radio-form-item item6">
-                                <input type="radio" name="ValueX" id="p2">
+                                <input type="radio" name="X" id="p2" value="2">
                                 <label for="p2">2</label>
                             </div>
                             <div class="radio-form-item item7">
-                                <input type="radio" name="ValueX" id="p3">
+                                <input type="radio" name="X" id="p3" value="3">
                                 <label for="p3">3</label>
                             </div>
                             <div class="radio-form-item item8">
-                                <input type="radio" name="ValueX" id="p4">
+                                <input type="radio" name="X" id="p4" value="4">
                                 <label for="p4">4</label>
                             </div>
                             <div class="radio-form-item item9">
-                                <input type="radio" name="ValueX" id="p5">
+                                <input type="radio" name="X" id="p5"  value="5" checked>
                                 <label for="p5">5</label>
                             </div>
                         </div>
@@ -78,7 +85,7 @@
                         <table class="radioTable" name="radio">
                             <tr>
                                 <td>
-                                    <input type="radio" id="1" name="radius" value="1" checked/>
+                                    <input type="radio" id="1" name="radius" value="1" />
                                     <label for="1">1</label>
                                 </td>
                                 <td>
@@ -96,7 +103,7 @@
                                     <label for="4">4</label>
                                 </td>
                                 <td>
-                                    <input type="radio" id="5" name="radius" value="5"/>
+                                    <input type="radio" id="5" name="radius" value="5" checked/>
                                     <label for="5">5</label>
                                 </td>
                             </tr>
@@ -116,11 +123,16 @@
     </div>
 </main>
 <script>
-    JSONObject = <%=session.getAttribute("array")%>
+    let ArrayPoints = <%=points.convertToJSON()%>;
+    console.log(ArrayPoints);
+    path = "${pageContext.request.contextPath}";
 </script>
+
 <script src="JS/Main.js" type="text/javascript"></script>
 <script src="JS/CanvasPrinter.js" type="text/javascript"></script>
 <script src="JS/Validator.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 </body>
 
 </html>

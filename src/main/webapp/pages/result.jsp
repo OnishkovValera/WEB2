@@ -1,5 +1,14 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<!DOCTYPE html>
+<%@ page import="Beans.ArrayPoints"%>
+<%@ page import="Beans.Point"%>
+
+<%
+    ArrayPoints points;
+    points = (session.getAttribute("array") == null)
+            ? new ArrayPoints()
+            : (ArrayPoints) session.getAttribute("array");
+%>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -14,10 +23,20 @@
         <td>R</td>
         <td>Результат</td>
         <td>Время</td>
-        <td>Время выполнения(милисекунды)</td>
+        <td>Время выполнения(миллисекунды)</td>
     </tr>
+    <%for(Point point: points.getPoints()){%>
+    <tr>
+        <td><%=point.getX()%></td>
+        <td><%=point.getY()%></td>
+        <td><%=point.getR()%></td>
+        <td><%=point.getStatus().toString()%></td>
+        <td><%=point.getTime()%></td>
+        <td><%=point.getScriptTime()%></td>
+    </tr>
+    <%}%>
 </table>
-<a href="../index.jsp" class="previous">Вернуться на главную страницу</a>
+<a href="${pageContext.request.contextPath}/index.jsp" class="previous">Вернуться на главную страницу</a>
 </body>
 </html>
 <style>
