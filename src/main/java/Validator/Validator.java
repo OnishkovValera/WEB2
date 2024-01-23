@@ -19,12 +19,20 @@ public class Validator {
         return !req.getParameter("X").isEmpty() && !req.getParameter("Y").isEmpty() && !req.getParameter("radius").isEmpty();
     }
 
+    public boolean validateData(){
+        if(req.getParameter("X").length() > 20 || req.getParameter("Y").length()>20 || req.getParameter("radius").length() > 20){
+            return false;
+        }
+        return validateX(req.getParameter("X")) & validateY(req.getParameter("Y")) & validateR(req.getParameter("radius"));
+    }
+
     public boolean validateX(String xString) {
         if (Objects.isNull(xString) || xString.isEmpty()) {
             return false;
         }
         try {
-            this.x = Double.parseDouble(xString);
+            Double x = Double.parseDouble(xString);
+            this.x = x;
             return x >= -3 && x <= 5;
         } catch (NumberFormatException e) {
             return false;
@@ -36,7 +44,8 @@ public class Validator {
             return false;
         }
         try {
-            this.y = Double.parseDouble(yString);
+            Double y = Double.parseDouble(yString);
+            this.y = y;
             return y >= -3 && y <= 5;
         } catch (NumberFormatException e) {
             return false;
@@ -48,7 +57,8 @@ public class Validator {
             return false;
         }
         try {
-            this.r = Integer.parseInt(rString);
+            Integer r = Integer.parseInt(rString);
+            this.r = r;
             return r >= 1 && r <= 5;
         } catch (NumberFormatException e) {
             return false;

@@ -32,7 +32,6 @@ public class AreaCheckerServlet extends HttpServlet{
             Double x = Double.parseDouble(req.getParameter("X"));
             Double y = Double.parseDouble(req.getParameter("Y"));
             Integer r = Integer.parseInt(req.getParameter("radius"));
-
             if (session.getAttribute("array") == null) {
                 session.setMaxInactiveInterval(360000);
                 points = new ArrayPoints();
@@ -41,13 +40,14 @@ public class AreaCheckerServlet extends HttpServlet{
                 points = (ArrayPoints) session.getAttribute("array");
             }
 
-            String stat = req.getParameter("status");
-            HitStatus status;
-            if(stat == null){
+
+            HitStatus status = (HitStatus) req.getAttribute("status");
+            if(status == null){
                 status = isHit(x, y, r) ? HIT : MISS;
             }else{
-                status = HitStatus.valueOf(stat);
+                status = NOT_VALID;
             }
+            System.out.println(status);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String currentTime = formatter.format(LocalDateTime.now(ZoneOffset.UTC));

@@ -124,10 +124,8 @@
 </main>
 <script>
     let ArrayPoints = <%=points.convertToJSON()%>;
-    console.log(ArrayPoints);
     path = "${pageContext.request.contextPath}";
 </script>
-
 <script src="JS/Main.js" type="text/javascript"></script>
 <script src="JS/CanvasPrinter.js" type="text/javascript"></script>
 <script src="JS/Validator.js" type="text/javascript"></script>
