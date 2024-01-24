@@ -5,6 +5,8 @@ package Servlets;
 import Beans.ArrayPoints;
 import Beans.Point;
 import Validator.HitStatus;
+import jakarta.servlet.annotation.HttpMethodConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,33 +23,35 @@ import static Validator.HitStatus.*;
 
 
 @WebServlet("/AreaChecker")
+@ServletSecurity(httpMethodConstraints = @HttpMethodConstraint(value = "GET", emptyRoleSemantic = ServletSecurity.EmptyRoleSemantic.DENY))
 public class AreaCheckerServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             long timer = System.nanoTime();
+            Double x = (double) 0;
+            Double y = (double) 0;
+            Integer r = 0;
             ArrayPoints points;
             HttpSession session = req.getSession();
-
-            Double x = Double.parseDouble(req.getParameter("X"));
-            Double y = Double.parseDouble(req.getParameter("Y"));
-            Integer r = Integer.parseInt(req.getParameter("radius"));
-            if (session.getAttribute("array") == null) {
-                session.setMaxInactiveInterval(360000);
-                points = new ArrayPoints();
-                session.setAttribute("array", points);
-            }else{
-                points = (ArrayPoints) session.getAttribute("array");
-            }
-
-
             HitStatus status = (HitStatus) req.getAttribute("status");
             if(status == null){
+                x = Double.parseDouble(req.getParameter("X"));
+                y = Double.parseDouble(req.getParameter("Y"));
+                r = Integer.parseInt(req.getParameter("radius"));
                 status = isHit(x, y, r) ? HIT : MISS;
             }else{
                 status = NOT_VALID;
             }
-            System.out.println(status);
+
+            if (session.getAttribute("array") == null) {
+                session.setMaxInactiveInterval(360000);
+                points = new ArrayPoints();
+                session.setAttribute("array", points);
+            } else {
+                points = (ArrayPoints) session.getAttribute("array");
+            }
+
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String currentTime = formatter.format(LocalDateTime.now(ZoneOffset.UTC));

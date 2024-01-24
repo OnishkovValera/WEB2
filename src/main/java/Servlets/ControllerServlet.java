@@ -3,6 +3,8 @@ package Servlets;
 import Validator.Validator;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpMethodConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +23,6 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Validator val = new Validator(req);
         if(!(val.checkFormat() & val.validateData())) {
-            System.out.println(val.checkFormat() + " " + val.validateData());
             req.setAttribute("status", NOT_VALID);
         }
         req.getRequestDispatcher("./AreaChecker").forward(req, resp);
@@ -36,5 +37,6 @@ public class ControllerServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.getWriter().write(json.toJson(jsonResponse));
         resp.setStatus(422);
+
     }
 }

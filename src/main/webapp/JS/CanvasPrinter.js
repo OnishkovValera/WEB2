@@ -146,16 +146,20 @@ function parseCanvasClick(event){
     }
     let x = (((pixelsX - 35)/(GRAPH_SIZE*2))-0.5)*10;
     let y = (((2*GRAPH_SIZE - (pixelsY - 35))/(GRAPH_SIZE*2))-0.5)*10;
-    $.ajax({
-        type:"GET",
-        url: "Controller",
-        dataType:"json",
-        async:false,
-        data:{
-            "X":x,
-            "Y":y,
-            "radius":lastClickedRadius
-        }
-    })
-    window.location.replace("pages/result.jsp");
+    if(x < -3 || x > 5 || y < -3 || y > 5){
+        alert("Клик вне зоны графика");
+    }else {
+        $.ajax({
+            type: "GET",
+            url: "Controller",
+            dataType: "json",
+            async: false,
+            data: {
+                "X": x,
+                "Y": y,
+                "radius": lastClickedRadius
+            }
+        })
+        window.location.replace("pages/result.jsp");
+    }
 }
